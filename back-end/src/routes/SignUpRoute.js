@@ -19,7 +19,7 @@ export const SignUpRoute = {
         const passwordHash = await bcrypt.hash(password, 10);
 
         const startingInfo = {
-            //default vaklues of user
+            //default values of user
             hairColor: '',
             favoriteFood: '',
             bio: '',

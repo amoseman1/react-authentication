@@ -1,12 +1,13 @@
 import { MongoClient } from 'mongodb';
 
-let client;
+const uri = 'mongodb://localhost:27017';
+const client = new MongoClient(uri,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 export const initializeDbConnection = async () => {
-    client = await MongoClient.connect('mongodb://localhost:27017', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
+     await client.connect();
 }
 
 export const getDbConnection = dbName => {

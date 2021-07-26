@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useToken } from '../auth/useToken';
+import axios from 'axios';
 
 export const SignUpPage = () => {
+    const [token, setToken] = useToken() //our custom hook
     const [errorMessage, setErrorMessage] = useState('')
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
@@ -10,7 +13,13 @@ export const SignUpPage = () => {
     const history = useHistory();
 
     const onSignUpClicked = async () => {
-        alert("still need this feature")
+        const response = await axios.post('/api/signup', {
+            email: emailValue,
+            password: passwordValue
+        });
+        const { token } = response.data;
+        setToken(token);
+        history.push('/'); //redirects us to the homepage
     }
 
     return (

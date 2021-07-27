@@ -1,4 +1,4 @@
-import { getDbConnection } from '../db'
+import { getDbConnection } from '../db.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -13,7 +13,7 @@ export const SignUpRoute = {
         //normal mongodb query(req) - are their any users with this email already in our db
 
         if (user) {
-            res.sendStatus(409); //409- conflict error code
+            return res.sendStatus(409); //409- conflict error code
         }
         //now we need to encrypt their password w. bcrypt
         const passwordHash = await bcrypt.hash(password, 10);

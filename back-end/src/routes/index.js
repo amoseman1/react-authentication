@@ -1,6 +1,6 @@
-import { testRoute } from './testRoute';
-import { SignUpRoute } from './SignUpRoute';
-import { logInRoute } from './loginRoute'
+import { testRoute } from './testRoute.js';
+import { SignUpRoute } from './SignUpRoute.js';
+import { logInRoute } from './loginRoute.js'
 
 export const routes = [
     SignUpRoute,

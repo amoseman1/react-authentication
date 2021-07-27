@@ -9,10 +9,14 @@ export const useUser = () => {
     const getPayloadFromToken = token => {
         const encodedPayload = token.split('.')[1]; //middle portion - index 1
         //const buffer = Buffer.from(uri, encodedPayload);     uri not defined
+
+        //creates a new buffer from the token and decodes it from base64
+        const string = Buffer.from(token, 'base64').toString();
         // const string = buffer.toString(encodedPayload);
-        return JSON.parse(string(encodedPayload));
+         //return JSON.parse(string(encodedPayload));
 
         //NOT SURE THIS IS WOrkING
+    
 
     }
 

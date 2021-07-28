@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useToken } from './useToken';
 
+function b64_to_utf8(str) {
+    return decodeURIComponent(escape(window.atob(str)));
+}
 
 export const useUser = () => {
     //get the token using useToekn state
@@ -8,9 +11,8 @@ export const useUser = () => {
     //define a func for getting the payload from the token, need to parase token into a json obj
     const getPayloadFromToken = token => {
         const encodedPayload = token.split('.')[1]; //middle portion - index 1
-        //const buffer = Buffer.from(uri, encodedPayload);     uri not defined
-        // const string = buffer.toString(encodedPayload);
-        return JSON.parse(string(encodedPayload));
+        ;
+        return JSON.parse(b64_to_utf8(encodedPayload));
 
         //NOT SURE THIS IS WOrkING
 

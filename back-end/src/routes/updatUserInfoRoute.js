@@ -27,5 +27,27 @@ export const updateUserInfoRoute = {
 
         //make sure the user hasnt tampered with the token and that its legitamite
         const token = authorization.split('')[1] //the auth header has Bearer alsiuhgfa;iubsdfnviav.jshdflyusdvb.ksjdfgbkadf ->jwt
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) return res.status(401).json({ message: "Unable to verify token" })
+
+            //get id from decoded data(users data sent back to server), make sure the id matches the id of the user they are trying to update
+            const { id } = decoded;
+            if (id !== userId) return res.status(403).json({ message: "Not allowed to update that user\s data" })
+
+            const db = getDbConnection('react-auth-db');
+            const result = await db.collection('users').findOneAndUpdate(
+                { _id: ObjectID(id) },
+                { $set: { info: updates } },
+                { returnOriginal: false } //makes so the query returns updated obj not the original one
+            );
+            const { email, isVerified, info } = result.value;
+
+            jwt.sign({ id, email, isVerified, info }, process.env.JWT_SECRET, { expiresIn: '2d' }, (err, token) => {
+                if (err) {
+                    return res.status(200).json(err)
+                }
+                res.status(200).json({ token })
+            })
+        })
     }
 }

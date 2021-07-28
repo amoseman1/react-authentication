@@ -13,9 +13,6 @@ export const useUser = () => {
         const encodedPayload = token.split('.')[1]; //middle portion - index 1
         ;
         return JSON.parse(b64_to_utf8(encodedPayload));
-
-        //NOT SURE THIS IS WOrkING
-
     }
 
     const [user, setUser] = useState(() => {

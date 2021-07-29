@@ -3,7 +3,7 @@ import { ObjectID } from 'mongodb';
 import { getDbConnection } from '../db';
 
 export const updateUserInfoRoute = {
-    path: '/api/user/:userId',
+    path: '/api/users/:userId',
     method: 'put',
     handler: async (req, res) => {
         //get the auth header from client, so when they make a req they send along the header with the jwt so we know its them
@@ -11,7 +11,7 @@ export const updateUserInfoRoute = {
         const { userId } = req.params;
 
         //need the update from the body, the json object that includes the updates
-        const updates = ({
+        const updates = (({
             favoriteFood,
             hairColor,
             bio
@@ -19,10 +19,10 @@ export const updateUserInfoRoute = {
             favoriteFood,
             hairColor,
             bio
-        })(req.body)
+        }))(req.body);
 
         if (!authorization) {
-            return Response.status(401).json({ message: 'No authorization header sent' })
+            return res.status(401).json({ message: 'No authorization header sent' })
         }
 
         //make sure the user hasnt tampered with the token and that its legitamite
@@ -32,7 +32,7 @@ export const updateUserInfoRoute = {
 
             //get id from decoded data(users data sent back to server), make sure the id matches the id of the user they are trying to update
             const { id } = decoded;
-            if (id !== userId) return res.status(403).json({ message: "Not allowed to update that user\s data" })
+            if (id !== userId) return res.status(403).json({ message: "Not allowed to update the user data" })
 
             const db = getDbConnection('react-auth-db');
             const result = await db.collection('users').findOneAndUpdate(

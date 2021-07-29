@@ -37,20 +37,24 @@ export const UserInfoPage = () => {
     }, [showSuccessMessage, showErrorMessage]);
 
     const saveChanges = async () => {
+        console.log('sent')
         // Send a request to the server to
         // update the user's info with any changes we've
         // made to the text input values
         try {
-            const response = await axios.put(`/api/user/${id}`, {
-                favortieFood,
+            const response = await axios.put(`/api/users/${id}`, {
+                favoriteFood,
                 hairColor,
-                bio
+                bio,
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
+            console.log('grabbed path')
+
             const { token: newToken } = response.data
             setToken(newToken);
+
             setShowSuccessMessage(true);
         } catch (error) {
             setShowErrorMessage(true);
@@ -58,21 +62,22 @@ export const UserInfoPage = () => {
     }
 
     const logOut = () => {
-        // We'll want to log the user out here
-        // and send them to the "login page"
-        alert('Log out functionality not implemented yet');
+        localStorage.removeItem('token');
+        history.push('/login')
     }
 
     const resetValues = () => {
         // Reset the text input values to
         // their starting values (the data we loaded from the server)
-        alert('Reset functionality not implemented yet');
+        setFavoriteFood(info.favoriteFood);
+        setHairColor(info.hairColor);
+        setBio(info.bio);
     }
 
     // And here we have the JSX for our component. It's pretty straightforward
     return (
         <div className="content-container">
-            <h1>Info for ______</h1>
+            <h1>Info for {email}</h1>
             {showSuccessMessage && <div className="success">Successfully saved user data!</div>}
             {showErrorMessage && <div className="fail">Uh oh... something went wrong and we couldn't save changes</div>}
             <label>
